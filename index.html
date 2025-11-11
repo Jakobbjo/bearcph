@@ -4,33 +4,48 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Hockey Stick ApS — AI voice agents til takeaway</title>
-  <meta name="description" content="Hockey Stick ApS bygger AI-baserede voice agents og apps til takeaway-restauranter. Tag imod bestillinger automatisk og send dem direkte til restauranten." />
+  <meta name="description" content="Hockey Stick ApS bygger AI-baserede voice agents og apps til takeaway-restauranter. Tag imod ordrer automatisk og send dem direkte til køkkenet." />
 
-  <!-- Favicon (PNG 64x64, indlejret) -->
-  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAABWQ1fPAAAABlBMVEUAAAD///+lpaXg4OBp7s5gAAAANUlEQVQY02NgoBAwQjA0wMDAiKJgM9DBQJxgYJbYgVg0kG0gkZ0QafFQpQx4GQ8qgQ3QYQwAAJkYqWl5w1m0AAAAAElFTkSuQmCC" />
-  <!-- Den rigtige favicon (fra dit logo) -->
-  <link rel="icon" type="image/png" href="data:image/png;base64,{{FAVICON_B64}}" />
+  <!-- Favicon: pizza-stykke (inline SVG) -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml;utf8,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
+      <defs>
+        <linearGradient id='c' x1='0' y1='0' x2='1' y2='1'>
+          <stop offset='0' stop-color='%23FDE68A'/><stop offset='1' stop-color='%23F59E0B'/>
+        </linearGradient>
+      </defs>
+      <path fill='%23C68642' d='M6 10 C24 13 42 15 58 18 C57 20 55 21 53 21 C34 18 20 16 6 13 Z'/>
+      <path fill='url(%23c)' d='M6 10 L58 18 L20 58 Z'/>
+      <circle fill='%23CD212A' cx='30' cy='28' r='4'/>
+      <circle fill='%23CD212A' cx='37' cy='36' r='4'/>
+      <circle fill='%23CD212A' cx='26' cy='38' r='3'/>
+      <path fill='%23FFF' opacity='.25' d='M12 20 L48 26 L22 50 Z'/>
+    </svg>" />
 
   <style>
+    /* Italiensk farvetema */
     :root{
-      --bg: #0c1116;
-      --card:#0f1621;
-      --muted:#9bb0c0;
-      --text:#e9f1f7;
-      --accent:#2dd4bf;   /* turkis */
-      --accent-2:#f59e0b; /* varm gul/orange */
-      --brand:#227a36;    /* grøn som i logo */
-      --brand-2:#f2a60f;  /* cap-farve */
+      --bg: #0a0f0a;
+      --card:#0f1711;
+      --text:#f7faf7;
+      --muted:#cfe3d2;
+      --it-green:#008C45;
+      --it-white:#F4F6F3;
+      --it-red:#CD212A;
+      --accent: var(--it-red);
+      --brand: var(--it-green);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans";
       color:var(--text);
       background:
-        radial-gradient(1200px 800px at 10% -10%, #1b2a38 0%, transparent 60%),
-        radial-gradient(1200px 800px at 110% 10%, #172633 0%, transparent 60%),
+        linear-gradient(90deg, rgba(0,140,69,.06) 0%, rgba(0,0,0,0) 33%, rgba(205,33,42,.06) 66%, rgba(0,0,0,0) 100%),
+        radial-gradient(1200px 800px at 10% -10%, #132114 0%, transparent 60%),
+        radial-gradient(1200px 800px at 110% 10%, #211313 0%, transparent 60%),
         var(--bg);
       line-height:1.6;
       letter-spacing:.2px;
@@ -38,108 +53,86 @@
     a{color:var(--accent); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:1100px;margin:0 auto;padding:0 20px}
+
     /* Nav */
     .nav{
       position:sticky;top:0;z-index:50;
       backdrop-filter:saturate(140%) blur(8px);
-      background:rgba(12,17,22,.6);
-      border-bottom:1px solid #1f2a37;
+      background:rgba(0,0,0,.45);
+      border-bottom:1px solid #223224;
     }
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:700}
-    .brand img{width:36px;height:36px;border-radius:999px;box-shadow:0 0 0 2px #183024}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+    .brand img{width:40px;height:40px;border-radius:999px;box-shadow:0 0 0 2px rgba(0,140,69,.5)}
     .menu{display:flex;align-items:center;gap:22px}
-    .menu a{font-weight:600;color:#cfe6f5}
-    .menu .dropdown{position:relative}
-    .submenu{
-      display:none;position:absolute;right:0;top:34px;background:#0d141c;border:1px solid #1f2a37;border-radius:12px;min-width:240px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:10px
-    }
-    .dropdown:hover .submenu{display:block}
-    .submenu a, .submenu div{display:block;padding:10px 12px;border-radius:8px;color:#dbe7f1}
-    .submenu a:hover{background:#101a23}
-    .badge{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0b1016;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.4px}
+    .menu a{font-weight:700;color:#e9f5ec}
+
+    .badge{background:linear-gradient(90deg,var(--it-green),var(--it-red));color:#0a0f0a;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:900;letter-spacing:.35px}
+
     /* Hero */
-    .hero{padding:64px 0 30px;position:relative;overflow:hidden}
+    .hero{padding:64px 0 30px}
     .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
     .headline{font-size:48px;line-height:1.1;margin:0 0 16px;font-weight:900}
     .sub{color:var(--muted);font-size:18px}
     .hero-card{
-      background:linear-gradient(180deg,#0f1621,#0b1016);
-      border:1px solid #1f2a37;border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)
+      background:linear-gradient(180deg,#111a12,#0b100b);
+      border:1px solid #223224;border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)
     }
     .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
-    .kpi{background:#0e1520;border:1px solid #1f2a37;border-radius:14px;padding:14px;text-align:center}
+    .kpi{background:#111811;border:1px solid #223224;border-radius:14px;padding:14px;text-align:center}
     .kpi b{font-size:22px;display:block}
     .btns{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
     .btn{
-      display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;font-weight:800;border:1px solid #1f2a37;background:#0f1722;color:#e6f0f7
+      display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;font-weight:900;border:1px solid #223224;background:#0f160f;color:#eef7ef
     }
     .btn.primary{
-      background:linear-gradient(90deg,var(--brand),var(--accent));color:#0a0f14;border:0
+      background:linear-gradient(90deg,var(--it-green),var(--it-red));color:#0a0f0a;border:0
     }
-    .pill{display:inline-flex;align-items:center;gap:8px;background:#0e1a13;border:1px solid #1f3a24;color:#b7ffd7;padding:6px 10px;border-radius:999px;font-weight:700}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#0e1a13;border:1px solid #1b3d28;color:#b9ffcf;padding:6px 10px;border-radius:999px;font-weight:800}
+
     /* Sections */
     section{padding:56px 0}
     h2{font-size:32px;margin:0 0 10px}
-    .lead{color:#c2d7e6}
+    .lead{color:#d9ecde}
     .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-    .card{background:#0f1621;border:1px solid #1f2a37;border-radius:16px;padding:18px}
+    .card{background:#0f1711;border:1px solid #223224;border-radius:16px;padding:18px}
     .icon{
       width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:10px;
-      background:linear-gradient(135deg,var(--brand),#174b29)
+      background:linear-gradient(135deg,var(--it-green),#0d5e33)
     }
     .icon svg{width:24px;height:24px;fill:#eafff6}
-    .feature-list{margin:12px 0 0;padding:0 0 0 18px}
-    .feature-list li{margin:6px 0}
-    /* Pricing */
-    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-    .price{background:#0f1621;border:1px solid #2a3a4a;border-radius:16px;padding:22px}
-    .price.featured{border-color:#28c7b1;box-shadow:0 0 0 2px rgba(45,212,191,.2)}
-    .price h3{margin:0 0 6px}
-    .price .amt{font-size:34px;font-weight:900}
-    .price ul{margin:12px 0 0;padding:0 0 0 18px}
-    /* CTA band */
+
     .cta{
-      margin-top:26px;border-radius:18px;padding:24px;border:1px solid #1f2a37;background:
-        radial-gradient(600px 200px at 0% 0%, rgba(45,212,191,.15), transparent 60%),
-        radial-gradient(600px 200px at 100% 100%, rgba(245,158,11,.15), transparent 60%),
-        #0e1620;
+      margin-top:26px;border-radius:18px;padding:24px;border:1px solid #223224;background:
+        radial-gradient(600px 200px at 0% 0%, rgba(0,140,69,.18), transparent 60%),
+        radial-gradient(600px 200px at 100% 100%, rgba(205,33,42,.18), transparent 60%),
+        #0f1711;
     }
-    .footer{border-top:1px solid #1f2a37;color:#b9cadd;padding:24px 0 40px}
+    .footer{border-top:1px solid #223224;color:#d0e4d4;padding:24px 0 40px}
+
     /* Responsive */
     @media (max-width:900px){
       .hero-grid{grid-template-columns:1fr}
-      .cards,.pricing{grid-template-columns:1fr}
-      .kpis{grid-template-columns:repeat(3,1fr)}
+      .cards{grid-template-columns:1fr}
       .headline{font-size:38px}
-    }
-    @media (max-width:560px){
-      .kpis{grid-template-columns:1fr 1fr}
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
+  <!-- Navigation (logo øverst venstre) -->
   <nav class="nav">
     <div class="container nav-inner">
       <div class="brand">
-        <img alt="Hockey Stick ApS logo" src="data:image/jpeg;base64,{{LOGO_B64}}">
+        <!-- Upload logoet som assets/logo.jpg -->
+        <img alt="Hockey Stick ApS logo" src="assets/logo.jpg">
         <span>Hockey Stick ApS</span>
         <span class="badge">AI voice til takeaway</span>
       </div>
       <div class="menu">
         <a href="#losning">Løsning</a>
         <a href="#hvorfor">Hvorfor?</a>
-        <a href="#priser">Priser</a>
-        <div class="dropdown">
-          <a href="#kontakt">Kontakt</a>
-          <div class="submenu">
-            <div><strong>Kontaktperson:</strong> Jakob Bjørndahl</div>
-            <div><strong>Telefon:</strong> <a href="tel:31408899">31408899</a></div>
-            <div><strong>Email:</strong> <a href="mailto:hello@bearcph.com">hello@bearcph.com</a></div>
-          </div>
-        </div>
+        <a href="#kontakt">Kontakt</a>
       </div>
     </div>
   </nav>
@@ -165,9 +158,9 @@
         </div>
       </div>
       <div class="hero-card">
-        <img alt="Voice agent illustration" src="data:image/jpeg;base64,{{LOGO_B64}}" style="width:100%;border-radius:14px;border:1px solid #1f2a37;background:#0c131b;padding:12px" />
-        <p style="margin:12px 0 0;color:#b6cad9">
-          Kombinér voice agent med vores bestillings-apps. Kunder kan ringe, tale, trykke — samme backend, samme menu, én samlet flow.
+        <img alt="Voice agent illustration" src="assets/logo.jpg" style="width:100%;border-radius:14px;border:1px solid #223224;background:#0b120c;padding:12px" />
+        <p style="margin:12px 0 0;color:#d0e4d4">
+          Kombinér voice agent med vores bestillings-apps. Kunder kan ringe, tale, trykke — samme backend, samme menu, ét samlet flow.
         </p>
       </div>
     </div>
@@ -184,34 +177,37 @@
             <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 00-9 9v2l-1 2v1h20v-1l-1-2v-2a9 9 0 00-9-9zm0 16a3 3 0 100-6 3 3 0 000 6z"/></svg>
           </div>
           <h3>Naturlig samtale</h3>
-          <ul class="feature-list">
+          <ul>
             <li>Forstår danske dialekter og almindelig tale</li>
-            <li>Kan afbrydes (barge-in) og håndterer ændringer</li>
+            <li>Kan afbrydes og håndterer ændringer</li>
             <li>Gentager ordren, så intet bliver forkert</li>
           </ul>
         </div>
         <div class="card">
-          <div class="icon" aria-hidden="true" style="background:linear-gradient(135deg,var(--accent-2),#a86100)">
+          <div class="icon" aria-hidden="true" style="background:linear-gradient(135deg,var(--it-red),#8d141b)">
             <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z"/></svg>
           </div>
           <h3>Direkte til køkkenet</h3>
-          <ul class="feature-list">
+          <ul>
             <li>Sender bestillinger direkte til jeres system eller printer</li>
-            <li>Menustyring: størrelser, toppings, drikke — alt mappet</li>
+            <li>Menu med størrelser, toppings, drikke — alt mappet</li>
             <li>Kvittering med samlet pris og afhentningstid</li>
           </ul>
         </div>
         <div class="card">
-          <div class="icon" aria-hidden="true" style="background:linear-gradient(135deg,var(--accent),#0f766e)">
+          <div class="icon" aria-hidden="true" style="background:linear-gradient(135deg,var(--it-green),#0d5e33)">
             <svg viewBox="0 0 24 24"><path d="M12 1l3 7h7l-5.5 4.5L18 22l-6-4-6 4 1.5-9.5L2 8h7z"/></svg>
           </div>
           <h3>Driftssikkert og skalerbart</h3>
-          <ul class="feature-list">
+          <ul>
             <li>Håndterer flere opkald samtidigt</li>
             <li>24/7 tilgængelighed — også uden for åbningstid</li>
-            <li>Rapporter på antal opkald, afvisninger og salg</li>
+            <li>Rapporter på opkald, gennemførsel og salg</li>
           </ul>
         </div>
+      </div>
+      <div class="cta">
+        <b>Personligt tilbud:</b> kontakt os for en skræddersyet løsning til jeres behov og nuværende setup.
       </div>
     </div>
   </section>
@@ -220,55 +216,11 @@
   <section id="hvorfor">
     <div class="container">
       <h2>Hvorfor vælger restauratører Hockey Stick?</h2>
-      <p class="lead">Fordi hver mistet telefon er en mistet ordre. Voice agenten svarer med det samme, guider kunden roligt igennem og afslutter købet — også når telefonen ringer konstant.</p>
+      <p class="lead">Hver mistet telefon er en mistet ordre. Voice agenten svarer med det samme, guider kunden roligt igennem og afslutter købet — også når telefonen ringer konstant.</p>
       <div class="cards">
         <div class="card"><h3>Mere omsætning</h3><p>Få flere opkald igennem i travle perioder. Ingen kø, ingen “kan du vente et øjeblik?”.</p></div>
         <div class="card"><h3>Færre fejl</h3><p>Automatisk bekræftelse af størrelse, toppings og pris. Mindre spild og færre utilfredse kunder.</p></div>
-        <div class="card"><h3>Lave omkostninger</h3><p>Skalerer uden at hyre ekstra personaler. Betal for brug — ikke dyre døgn-vagter.</p></div>
-      </div>
-      <div class="cta">
-        <b>Tilføj vores app-løsning</b> og lad kunder bestille i appen med samme menu og samme lager — ét samlet flow på tværs af voice og app.
-      </div>
-    </div>
-  </section>
-
-  <!-- Priser (eksempelplaceholders) -->
-  <section id="priser">
-    <div class="container">
-      <h2>Priser (enkle og gennemsigtige)</h2>
-      <p class="lead">Start småt og opskalér efter behov. Kontakt os for præcise takster.</p>
-      <div class="pricing">
-        <div class="price">
-          <h3>Start</h3>
-          <div class="amt">kr. —</div>
-          <ul>
-            <li>Voice agent til én linje</li>
-            <li>Standard menu-tilpasning</li>
-            <li>E-mail kvittering</li>
-          </ul>
-        </div>
-        <div class="price featured">
-          <h3>Pro (mest valgt)</h3>
-          <div class="amt">kr. —</div>
-          <ul>
-            <li>Flere samtidige opkald</li>
-            <li>Printer-/kassesystem integration</li>
-            <li>Rapporter og oversigter</li>
-          </ul>
-        </div>
-        <div class="price">
-          <h3>Enterprise</h3>
-          <div class="amt">kr. —</div>
-          <ul>
-            <li>Flerbutik, kø-styring, API-adgang</li>
-            <li>Avancerede flows og sprog</li>
-            <li>Serviceaftale efter behov</li>
-          </ul>
-        </div>
-      </div>
-      <div class="btns" style="margin-top:18px">
-        <a class="btn primary" href="#kontakt">Få et tilbud</a>
-        <a class="btn" href="#faq">Tekniske detaljer</a>
+        <div class="card"><h3>Lave omkostninger</h3><p>Skalerer uden at hyre ekstra personaler. Betal for brug — ikke dyre døgnvagter.</p></div>
       </div>
     </div>
   </section>
@@ -282,17 +234,17 @@
         <div class="card">
           <h3>Hockey Stick ApS</h3>
           <p><b>Kontaktperson:</b> Jakob Bjørndahl</p>
-          <p><b>Telefon:</b> <a href="tel:314899">314899</a></p>
+          <p><b>Telefon:</b> <a href="tel:31408899">31408899</a></p>
           <p><b>Email:</b> <a href="mailto:hello@bearcph.com">hello@bearcph.com</a></p>
           <div class="btns"><a class="btn primary" href="mailto:hello@bearcph.com">Book demo</a></div>
         </div>
         <div class="card">
           <h3>Ofte stillede spørgsmål</h3>
-          <ul class="feature-list">
+          <ul>
             <li>Kan håndtere flere opkald samtidigt</li>
             <li>Understøtter menu-tilvalg, størrelser og allergier</li>
             <li>Sender ordren direkte til jeres system/printer</li>
-            <li>Kan tale dansk som standard — andre sprog muligt</li>
+            <li>Dansk som standard — andre sprog muligt</li>
           </ul>
         </div>
         <div class="card">
@@ -306,7 +258,7 @@
   <footer class="footer">
     <div class="container">
       <div style="display:flex;align-items:center;gap:10px">
-        <img alt="Hockey Stick ApS" src="data:image/jpeg;base64,{{LOGO_B64}}" style="width:28px;height:28px;border-radius:999px" />
+        <img alt="Hockey Stick ApS" src="assets/logo.jpg" style="width:28px;height:28px;border-radius:999px" />
         <div>© <span id="y"></span> Hockey Stick ApS — AI voice & apps til takeaway</div>
       </div>
     </div>
@@ -318,8 +270,8 @@
     "@context":"https://schema.org",
     "@type":"Organization",
     "name":"Hockey Stick ApS",
-    "url":"https://example.com",
-    "logo":"data:image/jpeg;base64,{{LOGO_B64}}",
+    "url":"https://www.bearcph.com",
+    "logo":"assets/logo.jpg",
     "contactPoint":[{
       "@type":"ContactPoint",
       "contactType":"sales",
