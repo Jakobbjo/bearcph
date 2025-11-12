@@ -1,7 +1,0 @@
-project_id = "cfngcrmpiyysuecndxkd"
-
-[functions.receive-n8n-order]
-verify_jwt = false
-
-[functions.vapi-webhook]
-verify_jwt = false
