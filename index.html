@@ -1,7 +1,156 @@
-{ "dependencies": { "@radix-ui/react-toast": "^1.2.15", "@radix-ui/react-tooltip": "^1.2.8", "@tanstack/react-query":
-"^5.90.7", "@types/node": "^24.10.1", "@types/react": "^19.2.3", "@types/react-dom": "^19.2.3",
-"@vitejs/plugin-react-swc": "^4.2.2", "autoprefixer": "^10.4.22", "class-variance-authority": "^0.7.1", "clsx":
-"^2.1.1", "lovable-tagger": "^1.1.11", "lucide-react": "^0.553.0", "next-themes": "^0.4.6", "postcss": "^8.5.6",
-"react": "^19.2.0", "react-dom": "^19.2.0", "react-router-dom": "^7.9.5", "sonner": "^2.0.7", "tailwind-merge":
-"^3.4.0", "tailwindcss": "^4.1.17", "tailwindcss-animate": "^1.0.7", "scripts": { "dev": "vite", "build": "vite build",
-"build:dev": "vite build --mode development", "preview": "vite preview" } }
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hockey Stick ApS — AI voice agents til takeaway</title>
+  <meta name="description" content="Hockey Stick ApS bygger AI-baserede voice agents og apps til takeaway-restauranter. Tag imod ordrer automatisk og send dem direkte til køkkenet." />
+
+  <!-- Pizza-favicon som inline SVG -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml;utf8,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
+      <defs><linearGradient id='c' x1='0' y1='0' x2='1' y2='1'>
+        <stop offset='0' stop-color='%23FDE68A'/><stop offset='1' stop-color='%23F59E0B'/>
+      </linearGradient></defs>
+      <path fill='%23C68642' d='M6 10 C24 13 42 15 58 18 C57 20 55 21 53 21 C34 18 20 16 6 13 Z'/>
+      <path fill='url(%23c)' d='M6 10 L58 18 L20 58 Z'/>
+      <circle fill='%23CD212A' cx='30' cy='28' r='4'/>
+      <circle fill='%23CD212A' cx='37' cy='36' r='4'/>
+      <circle fill='%23CD212A' cx='26' cy='38' r='3'/>
+      <path fill='%23FFF' opacity='.25' d='M12 20 L48 26 L22 50 Z'/>
+    </svg>" />
+
+  <style>
+    :root{
+      --bg:#0a0f0a;--card:#0f1711;--text:#f7faf7;--muted:#cfe3d2;
+      --it-green:#008C45;--it-white:#F4F6F3;--it-red:#CD212A;
+    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans";color:var(--text);
+      background:linear-gradient(90deg,rgba(0,140,69,.06) 0%,transparent 33%,rgba(205,33,42,.06) 66%,transparent 100%),#0a0f0a;line-height:1.6}
+    a{color:var(--it-red);text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    .nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(8px);background:rgba(0,0,0,.45);border-bottom:1px solid #223224}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+    .brand img{width:40px;height:40px;border-radius:999px;box-shadow:0 0 0 2px rgba(0,140,69,.5)}
+    .menu{display:flex;gap:22px}
+    .menu a{font-weight:700;color:#e9f5ec}
+    .badge{background:linear-gradient(90deg,var(--it-green),var(--it-red));color:#0a0f0a;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:900}
+    .hero{padding:64px 0 30px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
+    .headline{font-size:48px;line-height:1.1;margin:0 0 16px;font-weight:900}
+    .sub{color:var(--muted);font-size:18px}
+    .hero-card{background:#111a12;border:1px solid #223224;border-radius:20px;padding:22px}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+    .kpi{background:#111811;border:1px solid #223224;border-radius:14px;padding:14px;text-align:center}
+    .kpi b{font-size:22px;display:block}
+    .btns{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;font-weight:900;border:1px solid #223224;background:#0f160f;color:#eef7ef}
+    .btn.primary{background:linear-gradient(90deg,var(--it-green),var(--it-red));color:#0a0f0a;border:0}
+    section{padding:56px 0} h2{font-size:32px;margin:0 0 10px} .lead{color:#d9ecde}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+    .card{background:#0f1711;border:1px solid #223224;border-radius:16px;padding:18px}
+    .offer-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+    .offer{background:#0f1711;border:1px solid #223224;border-radius:18px;padding:22px}
+    .price-line{font-weight:900;font-size:18px;margin:8px 0}
+    .dim{color:#cfe3d2} .note{font-size:14px;color:#cfe3d2;margin-top:8px}
+    @media (max-width:900px){.hero-grid{grid-template-columns:1fr}.cards,.offer-wrap{grid-template-columns:1fr}.headline{font-size:38px}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <img alt="Hockey Stick ApS logo" src="assets/Pickup%20logo%20creme_gul.jpeg">
+        <span>Hockey Stick ApS</span>
+        <span class="badge">AI voice til takeaway</span>
+      </div>
+      <div class="menu">
+        <a href="#losning">Løsning</a><a href="#tilbud">Tilbud</a><a href="#hvorfor">Hvorfor?</a><a href="#kontakt">Kontakt</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1 class="headline">AI-voice agents, der tager imod ordrer for dig</h1>
+        <p class="sub">Svar med det samme, forstå bestillingen, send bon direkte til køkkenet. Flere ordrer i myldretiden — færre fejl.</p>
+        <div class="btns"><a class="btn primary" href="#tilbud">Se tilbud</a><a class="btn" href="#losning">Sådan virker det</a></div>
+        <div class="kpis">
+          <div class="kpi"><b>+20–40%</b><span>flere gennemførte telefonordrer</span></div>
+          <div class="kpi"><b>&lt;1s</b><span>svartid</span></div>
+          <div class="kpi"><b>24/7</b><span>aldrig en tabt ordre</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img alt="Voice agent" src="assets/Pickup%20logo%20creme_gul.jpeg" style="width:100%;border-radius:14px;border:1px solid #223224;background:#0b120c;padding:12px" />
+        <p style="margin:12px 0 0;color:#d0e4d4">Kombinér voice agent med vores bestillings-app. Ét backend-flow, både opkald og app.</p>
+      </div>
+    </div>
+  </header>
+
+  <section id="losning">
+    <div class="container">
+      <h2>Løsningen</h2>
+      <div class="cards">
+        <div class="card"><h3>Naturlig samtale</h3><p>Dansk/engelsk, barge-in, gentager ordren højt.</p></div>
+        <div class="card"><h3>Direkte til køkken</h3><p>Sender bon til printer/POS straks efter bekræftelse.</p></div>
+        <div class="card"><h3>Skalerbar</h3><p>Tager alle opkald samtidigt. Drift 24/7.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tilbud">
+    <div class="container">
+      <h2>Tilbud</h2>
+      <div class="offer-wrap">
+        <div class="offer">
+          <h3>Voice-agent til takeaway</h3>
+          <p class="dim">• 2,00 kr./minut • est. 1.800 min/md • ca. 3.600 kr./md i forbrug</p>
+          <p class="price-line">Abonnement: <b>2.000 kr./md</b></p>
+          <p class="price-line">Samlet drift: <b>ca. 5.600 kr./md</b> ekskl. moms</p>
+          <p class="price-line">Opstart: <b>3.000 kr.</b> inkl. bonprinter + menuopsætning</p>
+          <p class="note">Leveringstid ~2 dage. Tjent hjem på under en uge i travle perioder.</p>
+        </div>
+        <div class="offer">
+          <h3>Android & iOS app</h3>
+          <p class="price-line">Udvikling: <b>4.000 kr.</b></p>
+          <p class="price-line">Abonnement: <b>2.000 kr./md</b></p>
+          <p class="price-line">1,00 kr./ordre via app</p>
+          <p class="note">Fordele: loyalitet, push-kampagner, genbestil på sekunder, færre telefonopkald.</p>
+          <p class="note">Leveringstid ~1 uge.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="hvorfor">
+    <div class="container">
+      <h2>Hvorfor Hockey Stick?</h2>
+      <div class="cards">
+        <div class="card"><h3>Mere omsætning</h3><p>Ingen optaget-toner. Hver kunde får svar.</p></div>
+        <div class="card"><h3>Færre fejl</h3><p>Klare bonner med størrelser og tilvalg.</p></div>
+        <div class="card"><h3>Lave omkostninger</h3><p>Skaler efter behov. Betal for faktisk brug.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt">
+    <div class="container">
+      <h2>Kontakt</h2>
+      <p><b>Kontaktperson:</b> Jakob Bjørndahl</p>
+      <p><b>Telefon:</b> <a href="tel:31408899">31408899</a></p>
+      <p><b>Email:</b> <a href="mailto:hello@bearcph.com">hello@bearcph.com</a></p>
+    </div>
+  </section>
+
+  <footer class="container" style="border-top:1px solid #223224;color:#d0e4d4;padding:24px 0 40px">
+    © <span id="y"></span> Hockey Stick ApS — AI voice & apps til takeaway
+  </footer>
+
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
